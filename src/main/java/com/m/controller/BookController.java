@@ -17,8 +17,16 @@ public class BookController extends BaseController {
     public void toList() throws Exception {
         Books book = new Books();
         Page page = new Page();
+        // 没有条件
+        // 可以计算
+        String pageNumberStr = super.getRequest().getParameter("pageNumber");
+        if (pageNumberStr == null){
+            pageNumberStr = "1";
+        }
+        page.setPageNumber(Integer.valueOf(pageNumberStr));
+        page = service.getPage(page);
 
-        List<Books> booksList = service.queryByPar(book);
+        List<Books> booksList = service.queryByPar(book,page);
 
         super.getRequest().setAttribute("bookList", booksList);
 
@@ -53,7 +61,7 @@ public class BookController extends BaseController {
         Books book = new Books();
         if (id != null) {
             book.setId(Integer.valueOf(id));
-            List<Books> booksList = service.queryByPar(book);
+            List<Books> booksList = service.queryByPar(book,null);
             if (booksList.size() == 1) {
                 book = booksList.get(0);
                 super.getRequest().setAttribute("book", book);

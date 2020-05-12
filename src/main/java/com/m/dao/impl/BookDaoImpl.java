@@ -3,6 +3,7 @@ package com.m.dao.impl;
 import com.m.dao.BookDao;
 import com.m.dao.baseDao.BaseDao;
 import com.m.entity.Books;
+import com.m.entity.Page;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -111,7 +112,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
     }
 
     @Override
-    public List<Books> queryByPar(Books book) {
+    public List<Books> queryByPar(Books book, Page page) {
         List<Books> books = new ArrayList<Books>();
 
         Connection connection = null;
@@ -136,6 +137,11 @@ public class BookDaoImpl extends BaseDao implements BookDao {
                 }
             }
 
+            if (page != null) {
+                if (page.getSize() != null && page.getOffset() != null)
+                sql.append(" LIMIT ?,?");
+            }
+
             PreparedStatement ps = connection.prepareStatement(sql.toString());
 
             int index = 0;
@@ -150,6 +156,14 @@ public class BookDaoImpl extends BaseDao implements BookDao {
                 if (book.getName() != null) {
                     ps.setObject(++index,book.getName());
                 }
+            }
+
+            if (page != null) {
+                if (page.getSize() != null && page.getOffset() != null) {
+                    ps.setObject(++index,page.getOffset());
+                    ps.setObject(++index,page.getSize());
+                }
+
             }
 
             ResultSet rs = ps.executeQuery();

@@ -47,11 +47,11 @@
     </c:forEach>
     <tr>
         <td colspan="5">
-            <a>首页</a>
-            <a>上一页</a>
-            <span>当前页/总页数</span>
-            <a>下一页</a>
-            <a>尾页</a>
+            <a href="/Books_demo_war/book/toList.do?pageNumber=1">首页</a>
+            <a href="/Books_demo_war/book/toList.do?pageNumber=${page.pageNumber - 1 < 1 ? 1: page.pageNumber - 1}">上一页</a>
+            <span>当前页${page.pageNumber}/总页数${page.pageCount}</span>
+            <a href="/Books_demo_war/book/toList.do?pageNumber=${page.pageNumber +1 > page.pageCount ? page.pageCount : page.pageNumber +1 }">下一页</a>
+            <a href="/Books_demo_war/book/toList.do?pageNumber=${page.pageCount}">尾页</a>
         </td>
     </tr>
 </table>
