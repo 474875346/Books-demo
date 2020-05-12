@@ -27,24 +27,27 @@ public class BookFilter implements Filter {
         String nameSpace = uri.split("/")[2];
         String method = uri.split("/")[3];
 
-        if ("book".equals(nameSpace)) {
-            BookController book = new BookController();
-            book.setRequest(hreq);
-            book.setResponse(hresp);
-            book.setSession(session);
+        hreq.setCharacterEncoding("UTF-8");
+        try {
+            if ("book".equals(nameSpace)) {
+                BookController book = new BookController();
+                book.setRequest(hreq);
+                book.setResponse(hresp);
+                book.setSession(session);
 
-            if ("toList.do".equals(method)) {
-                book.toList();
-            } else if ("del.do".equals(method)) {
-                book.del();
-            } else if ("toUpdate.do".equals(method)) {
-                book.toUpdate();
-            } else if ("insertOrUpdate.do".equals(method)) {
-                book.insertOrUpdate();
+                if ("toList.do".equals(method)) {
+                    book.toList();
+                } else if ("del.do".equals(method)) {
+                    book.del();
+                } else if ("toUpdate.do".equals(method)) {
+                    book.toUpdate();
+                } else if ("insertOrUpdate.do".equals(method)) {
+                    book.insertOrUpdate();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
     }
 
     @Override
